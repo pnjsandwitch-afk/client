@@ -1,27 +1,23 @@
 @echo off
-title Windows Defender Real Time Protection Disabler (Instant)
+title Windows Defender Platform Folder Deleter
 
 echo ===============================================
-echo  Applying Real-Time Protection Disable...
+echo  Starting deletion of: C:\ProgramData\Microsoft\Windows Defender\Platform
 echo ===============================================
 
-REM --- 1. Set Registry Key: DisableRealtimeMonitoring = 1 ---
-REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection" /v "DisableRealtimeMonitoring" /t REG_DWORD /d 1 /f
-echo [SUCCESS] Registry Key set!
-
-REM --- 2. Force Policy Update ---
-gpupdate /force
-echo [SUCCESS] Group Policy updated to reflect change immediately.
-
-REM --- 3. Restart Core Services (The immediate refresh) ---
-net stop WinDefend
-echo [INFO] Stopping Windows Defender Service...
-
-net start WinDefend
-echo [SUCCESS] Starting Windows Defender Service again!
+REM Check if the folder exists first (RD /S /Q checks for existence and deletes silently)
+IF EXIST "C:\ProgramData\Microsoft\Windows Defender\Platform" (
+    
+    REM RD stands for Remove Directory. 
+    REM /S means delete all subdirectories and files.
+    REM /Q means Quiet mode (no confirmation prompt).
+    RD /S /Q "C:\ProgramData\Microsoft\Windows Defender\Platform"
+    
+    echo [SUCCESS] Folder deleted successfully!
+) ELSE (
+    echo [INFO] The target folder was NOT found on the system. No deletion needed.
+)
 
 echo.
 echo ===============================================
-echo  ✅ COMPLETE! ✅
-echo Check the Windows Security GUI now to see RTP disabled instantly.
 pause
