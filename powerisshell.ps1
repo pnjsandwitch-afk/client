@@ -1,3 +1,5 @@
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+
 $Path = "C:\Program Files\Windows Defender"
 
 Write-Host "Target: $Path"
